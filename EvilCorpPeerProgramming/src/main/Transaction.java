@@ -9,22 +9,23 @@ public class Transaction
 {
 	private int ID;
 	private String account_number;
+
 	private int transaction_type_id;
 	private Date transaction_date = new Date();
 	private Date t_date = new Date();
 	private double amount;
 	private set_date set ;
-
 	
 	
-	public double getAmount()
-	{
+	
+	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount)
-	{
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+
+
 	public int getID() {
 		return ID;
 	}
@@ -50,5 +51,23 @@ public class Transaction
 		t_date = transaction_date;
 	}
 	
+	
+	public void process_transaction(Account account){
+		
+		switch (transaction_type_id){
+		case 1:
+			account.setStarting_balance(account.getStarting_balance() + amount);
+			break;
+		case 2:
+		case 3:
+		case 4:
+			account.setStarting_balance(account.getStarting_balance() - amount);
+			if(account.getStarting_balance() < 0){ 
+				account.setStarting_balance(account.getStarting_balance() - 35);
+			}
+			break;
+		default: System.out.println("Invalid transaction type.");
+		}
+	}
 
 }

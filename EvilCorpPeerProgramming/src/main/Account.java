@@ -36,8 +36,10 @@ public class Account
 	public double getStarting_balance() {
 		return starting_balance;
 	}
+
 	public void setStarting_balance(double starting_balance) {
 		this.starting_balance = starting_balance;
+
 	}
 	public Date getBirth_date() {
 		return b_date;
