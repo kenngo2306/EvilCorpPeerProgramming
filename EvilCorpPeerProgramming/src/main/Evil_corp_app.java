@@ -28,8 +28,8 @@ public class Evil_corp_app {
 		
 		int transaction_ID = 0;
 		//private String account_number;
-		String transaction_type_id;
-		String amount;
+		int transaction_type_id;
+		double amount;
 		String transaction_date;
 		
 		//Operator + for deposit, - for other transaction.
@@ -112,15 +112,15 @@ public class Evil_corp_app {
 					+ "2 - Check.\n"
 					+ "3 - Withdrawal.\n"
 					+ "4 - Debit Card.");
-			transaction_type_id = key.next();
-			key.nextLine();
+			transaction_type_id = key.nextInt();
+	
 		
 			
 			transaction.setTransaction_type_id(transaction_type_id);
 			
 			System.out.println("Enter Transaction amount: ");
-			amount = key.next();
-			key.nextLine();
+			amount = key.nextDouble();
+	
 			
 			transaction.setAmount(Double.parseDouble(amount));
 			
