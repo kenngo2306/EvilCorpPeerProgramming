@@ -1,21 +1,52 @@
 package main;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class AccountDBHelper
 {
+	private static final String ACCOUNT_TABLE = "Evil_Account";
+	private static final String ID = "ID";
+	private static final String ACCOUNT_NUMBER = "ACCOUNT_NUMBER";
+	private static final String NAME = "NAME";
+	private static final String STARTING_BALANCE = "STARTING_BALANCE";
+	private static final String BIRTH_DATE = "BIRTH_DATE";
+	
+	private static final String TRANSACTION_TABLE = "Evil_Transactions";
+
+	private static final String TRANSACTION_TYPE_ID = "TRANSACTION_TYPE_ID";
+	private static final String TRANSACTION_DATE = "TRANSACTION_DATE";
+	private static final String AMOUNT = "AMOUNT";
+	
+	public void updateBalance(Account account)
+	{
+		String sql = "UPDATE " + ACCOUNT_TABLE + " SET " + STARTING_BALANCE + " = " + account.getStarting_balance()
+				+ " WHERE " + ACCOUNT_NUMBER + "= '"+ account.getAccount_number() + "'" ;
+		System.out.println(sql);
+		try
+		{
+			Statement stmt = getConnection().createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public  ArrayList<Account> getAllAccounts()
 	{
 		ArrayList<Account> accounts = new ArrayList<Account>();
 
-        String sql = "select * from accounts";
+        String sql = "select * from " + ACCOUNT_TABLE;
 
         //creating PreparedStatement object to execute query
-        ResultSet result = executeSQL(sql);
+        ResultSet result = selectSQL(sql);
         try
         {
         	 while(result.next())
@@ -23,9 +54,10 @@ public class AccountDBHelper
              	Account account = new Account();
              	account.setAccount_number(result.getString("account_number"));
              	account.setID(result.getInt("ID"));
-             	
-             	
-             	
+             	account.setBirth_date(result.getDate("birth_date"));
+             	account.setName(result.getString("name"));
+             	account.setStarting_balance(result.getDouble("starting_balance"));
+       	
              	//TODO add fields for accounts
              	accounts.add(account);
              }
@@ -39,8 +71,120 @@ public class AccountDBHelper
 		return accounts;
 	}
 	
+	public void addTransaction(Transaction transaction)
+	{
+		//insert transaction
+		String insertTransaction = "INSERT INTO " + TRANSACTION_TABLE + 
+				"( "+ ID + ", " +
+				" " + ACCOUNT_NUMBER + ", " +
+				" " + TRANSACTION_TYPE_ID + ", " +
+				" " + TRANSACTION_DATE + ", " +
+				" " + AMOUNT +
+				" ) VALUES  " +
+				"(?,?,?,?,?)";
+		System.out.println(insertTransaction);
+		
+		try
+		{
+			java.util.Date utilDate = transaction.getTransaction_date();
+		    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+		    
+			PreparedStatement prepareStatement = getConnection().prepareStatement(insertTransaction);
+			prepareStatement.setInt(1,transaction.getID());
+			prepareStatement.setString(2, transaction.getAccount_number());
+			prepareStatement.setInt(3, transaction.getTransaction_type_id());
+			prepareStatement.setDate(4, sqlDate);
+			prepareStatement.setDouble(5,transaction.getAmount());
+			
+			prepareStatement.executeUpdate();
+		} 
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//update balance
+		Account account = getAccountFromNumber(transaction.getAccount_number());
+		
+		//TODO update balance
+		
+			
+	}
 	
-	public ResultSet executeSQL(String sql)
+	
+	public Account getAccountFromNumber(String accountNumber)
+	{
+		Account account = new Account();
+		String sql = "SELECT * FROM " + ACCOUNT_TABLE + " WHERE account_number = '" + accountNumber + "'";
+		System.out.println(sql);
+		ResultSet result = selectSQL(sql);
+		try
+		{
+			while(result.next())
+			{
+             	account.setAccount_number(result.getString("account_number"));
+             	account.setID(result.getInt("ID"));
+             	account.setBirth_date(result.getDate("birth_date"));
+             	account.setName(result.getString("name"));
+             	account.setStarting_balance(result.getDouble("starting_balance"));
+			}
+		}
+		
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return account;
+	}
+	
+	public void insertAccount(Account account)
+	{
+		String insertAccount = "INSERT INTO " + ACCOUNT_TABLE + 
+				"( "+ ID + ", " +
+				" " + ACCOUNT_NUMBER + ", " +
+				" " + NAME + ", " +
+				" " + STARTING_BALANCE + ", " +
+				" " + BIRTH_DATE +
+				" ) VALUES  " +
+				"(?,?,?,?,?)";
+		System.out.println(insertAccount);
+		try
+		{
+			java.util.Date utilDate = account.getBirth_date();
+		    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			PreparedStatement prepareStatement = getConnection().prepareStatement(insertAccount);
+			prepareStatement.setInt(1,account.getID());
+			prepareStatement.setString(2, account.getAccount_number());
+			prepareStatement.setString(3, account.getName());
+			prepareStatement.setDouble(4, account.getStarting_balance());
+			prepareStatement.setDate(5,sqlDate);
+			
+			prepareStatement.executeUpdate();
+		} 
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Connection getConnection()
+	{
+		Connection conn = null;
+		try
+		{
+			conn =  DBConnection.getConnection();
+		} 
+		catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conn;
+	}
+	
+	public ResultSet selectSQL(String sql)
 	{
 		Connection conn = null;
 		ResultSet result = null;

@@ -1,6 +1,7 @@
 package main;
 
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
@@ -9,11 +10,21 @@ public class Transaction
 	private int ID;
 	private String account_number;
 	private int transaction_type_id;
-	private String transaction_date;
-	private GregorianCalendar t_date;
+	private Date transaction_date = new Date();
+	private Date t_date = new Date();
+	private double amount;
 	private set_date set ;
 
 	
+	
+	public double getAmount()
+	{
+		return amount;
+	}
+	public void setAmount(double amount)
+	{
+		this.amount = amount;
+	}
 	public int getID() {
 		return ID;
 	}
@@ -32,13 +43,11 @@ public class Transaction
 	public void setTransaction_type_id(int transaction_type_id) {
 		this.transaction_type_id = transaction_type_id;
 	}
-	public GregorianCalendar getTransaction_date() {
+	public Date getTransaction_date() {
 		return t_date;
 	}
-	public void setTransaction_date(String transaction_date) {
-		set = new set_date();
-		set.setDate(transaction_date);
-		t_date = new GregorianCalendar(set.getYear(),set.getMonth(),set.getDay()) ;
+	public void setTransaction_date(Date transaction_date) {
+		t_date = transaction_date;
 	}
 	
 
