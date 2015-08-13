@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 public class Account
 {
 	private int ID;
-	private long account_number;
+	private String account_number;
 	private String name;
 	private int starting_balance;
 	private String birth_date;
@@ -19,10 +19,10 @@ public class Account
 	public void setID(int iD) {
 		ID = iD;
 	}
-	public long getAccount_number() {
+	public String getAccount_number() {
 		return account_number;
 	}
-	public void setAccount_number(long account_number) {
+	public void setAccount_number(String account_number) {
 		this.account_number = account_number;
 	}
 	public String getName() {
