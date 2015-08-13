@@ -10,11 +10,12 @@ import org.junit.Test;
 public class AccountDBHelperTest
 {
 
-//	@Test
-//	public void testGetAllAccounts()
-//	{
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testGetAllAccounts()
+	{
+		AccountDBHelper accountDBHelper = new AccountDBHelper();
+		accountDBHelper.deleteAccount("111");
+	}
 //
 //	@Test
 	public void testGetAccountFromNumber()
@@ -25,7 +26,7 @@ public class AccountDBHelperTest
 		System.out.println(account.getName());
 	}
 	
-	@Test
+	//@Test
 	public void testUpdateBalance()
 	{
 		Account account = new Account();
@@ -40,7 +41,7 @@ public class AccountDBHelperTest
 	public void testInsertAccount()
 	{
 		Account account = new Account();
-		account.setID(1124);
+
 		account.setAccount_number("11121");
 		account.setName("Ken");
 		account.setStarting_balance(1000);
@@ -52,7 +53,6 @@ public class AccountDBHelperTest
 	public void testAddTransaction()
 	{
 		Transaction transaction = new Transaction();
-		transaction.setID(123);
 		transaction.setAccount_number("11121");
 		transaction.setAmount(2000.0);
 		transaction.setTransaction_type_id(1);
