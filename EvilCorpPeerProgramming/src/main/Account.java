@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 
 public class Account
 {
-	private int ID;
+
 	private String account_number;
 	private String name;
 	private double starting_balance;
@@ -15,12 +15,7 @@ public class Account
 	private set_date set ;
 
 	
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
+
 	public String getAccount_number() {
 		return account_number;
 	}

@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Transaction
 {
-	private int ID;
+
 	private String account_number;
 
 	private int transaction_type_id;
@@ -26,12 +26,7 @@ public class Transaction
 	}
 
 
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
+
 	public String getAccount_number() {
 		return account_number;
 	}

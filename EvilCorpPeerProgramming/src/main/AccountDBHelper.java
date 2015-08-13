@@ -39,6 +39,21 @@ public class AccountDBHelper
 		}
 		
 	}
+	
+	public void deleteAccount(String account_number)
+	{
+		String sql = "DELETE FROM " + ACCOUNT_TABLE + " WHERE account_number = '" + account_number +"'";
+		try
+		{
+			Statement stmt = getConnection().createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public  ArrayList<Account> getAllAccounts()
 	{
 		ArrayList<Account> accounts = new ArrayList<Account>();
@@ -53,7 +68,7 @@ public class AccountDBHelper
              {
              	Account account = new Account();
              	account.setAccount_number(result.getString("account_number"));
-             	account.setID(result.getInt("ID"));
+     
              	account.setBirth_date(result.getDate("birth_date"));
              	account.setName(result.getString("name"));
              	account.setStarting_balance(result.getDouble("starting_balance"));
@@ -75,13 +90,13 @@ public class AccountDBHelper
 	{
 		//insert transaction
 		String insertTransaction = "INSERT INTO " + TRANSACTION_TABLE + 
-				"( "+ ID + ", " +
+				"( " +
 				" " + ACCOUNT_NUMBER + ", " +
 				" " + TRANSACTION_TYPE_ID + ", " +
 				" " + TRANSACTION_DATE + ", " +
 				" " + AMOUNT +
 				" ) VALUES  " +
-				"(?,?,?,?,?)";
+				"(?,?,?,?)";
 		System.out.println(insertTransaction);
 		
 		try
@@ -90,11 +105,11 @@ public class AccountDBHelper
 		    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 		    
 			PreparedStatement prepareStatement = getConnection().prepareStatement(insertTransaction);
-			prepareStatement.setInt(1,transaction.getID());
-			prepareStatement.setString(2, transaction.getAccount_number());
-			prepareStatement.setInt(3, transaction.getTransaction_type_id());
-			prepareStatement.setDate(4, sqlDate);
-			prepareStatement.setDouble(5,transaction.getAmount());
+			
+			prepareStatement.setString(1, transaction.getAccount_number());
+			prepareStatement.setInt(2, transaction.getTransaction_type_id());
+			prepareStatement.setDate(3, sqlDate);
+			prepareStatement.setDouble(4,transaction.getAmount());
 			
 			prepareStatement.executeUpdate();
 		} 
@@ -117,6 +132,7 @@ public class AccountDBHelper
 	{
 		Account account = new Account();
 		String sql = "SELECT * FROM " + ACCOUNT_TABLE + " WHERE account_number = '" + accountNumber + "'";
+//		String sql = "SELECT * FROM " + ACCOUNT_TABLE;
 		System.out.println(sql);
 		ResultSet result = selectSQL(sql);
 		try
@@ -124,7 +140,6 @@ public class AccountDBHelper
 			while(result.next())
 			{
              	account.setAccount_number(result.getString("account_number"));
-             	account.setID(result.getInt("ID"));
              	account.setBirth_date(result.getDate("birth_date"));
              	account.setName(result.getString("name"));
              	account.setStarting_balance(result.getDouble("starting_balance"));
@@ -141,24 +156,23 @@ public class AccountDBHelper
 	public void insertAccount(Account account)
 	{
 		String insertAccount = "INSERT INTO " + ACCOUNT_TABLE + 
-				"( "+ ID + ", " +
+				"( "+
 				" " + ACCOUNT_NUMBER + ", " +
 				" " + NAME + ", " +
 				" " + STARTING_BALANCE + ", " +
 				" " + BIRTH_DATE +
 				" ) VALUES  " +
-				"(?,?,?,?,?)";
+				"(?,?,?,?)";
 		System.out.println(insertAccount);
 		try
 		{
 			java.util.Date utilDate = account.getBirth_date();
 		    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			PreparedStatement prepareStatement = getConnection().prepareStatement(insertAccount);
-			prepareStatement.setInt(1,account.getID());
-			prepareStatement.setString(2, account.getAccount_number());
-			prepareStatement.setString(3, account.getName());
-			prepareStatement.setDouble(4, account.getStarting_balance());
-			prepareStatement.setDate(5,sqlDate);
+			prepareStatement.setString(1, account.getAccount_number());
+			prepareStatement.setString(2, account.getName());
+			prepareStatement.setDouble(3, account.getStarting_balance());
+			prepareStatement.setDate(4,sqlDate);
 			
 			prepareStatement.executeUpdate();
 		} 
