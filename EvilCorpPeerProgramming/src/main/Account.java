@@ -7,7 +7,7 @@ public class Account
 	private int ID;
 	private String account_number;
 	private String name;
-	private int starting_balance;
+	private double starting_balance;
 	private String birth_date;
 	private GregorianCalendar b_date;
 	private set_date set ;
@@ -31,11 +31,11 @@ public class Account
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getStarting_balance() {
+	public double getStarting_balance() {
 		return starting_balance;
 	}
-	public void setStarting_balance(int starting_balance) {
-		this.starting_balance = starting_balance;
+	public void setStarting_balance(double starting_balance2) {
+		this.starting_balance = starting_balance2;
 	}
 	public GregorianCalendar getBirth_date() {
 		return b_date;
