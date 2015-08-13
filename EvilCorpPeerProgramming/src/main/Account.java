@@ -8,8 +8,10 @@ public class Account
 	private String account_number;
 	private String name;
 	private int starting_balance;
-	private GregorianCalendar birth_date;
-	
+	private String birth_date;
+	private GregorianCalendar b_date;
+	private set_date set ;
+
 	
 	public int getID() {
 		return ID;
@@ -36,10 +38,12 @@ public class Account
 		this.starting_balance = starting_balance;
 	}
 	public GregorianCalendar getBirth_date() {
-		return birth_date;
+		return b_date;
 	}
-	public void setBirth_date(GregorianCalendar birth_date) {
-		this.birth_date = birth_date;
+	public void setBirth_date(String birth_date) {
+		set = new set_date();
+		set.setDate(birth_date);
+		b_date = new GregorianCalendar(set.getYear(),set.getMonth(),set.getDay()) ;
 	}
 	
 	
