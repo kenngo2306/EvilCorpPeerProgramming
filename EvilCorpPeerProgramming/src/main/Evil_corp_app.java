@@ -8,14 +8,6 @@ import java.util.Scanner;
 public class Evil_corp_app {
 	public static void main(String [] args){
 		
-		//Identifying arraylist for both Account and transaction classes.
-		ArrayList<Account> list_of_accounts = new ArrayList<Account> ();
-		ArrayList<Transaction> list_of_transactions = new ArrayList<Transaction> ();
-		
-		
-		
-		
-		
 		Scanner key = new Scanner(System.in);
 		Validator val = new Validator();
 		
@@ -122,14 +114,10 @@ public class Evil_corp_app {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			list_of_accounts.add(account);
-			
+			//System.out.println(account.getAccount_number());
+			all_in_sql.insertAccount(account);
 		}
 		
-		for(Account account2 : list_of_accounts)
-		{
-			all_in_sql.insertAccount(account2);
-		}
 		
 		System.out.println("Welcome to Evil Corp bank Transactions");
 
@@ -157,6 +145,7 @@ public class Evil_corp_app {
 				}
 				
 				Account account = all_in_sql.getAccountFromNumber(account_number);
+				
 				if(account.getAccount_number() != null)
 				{
 					hasAccount = true;
@@ -239,26 +228,19 @@ public class Evil_corp_app {
 				e.printStackTrace();
 			}
 			
+			//transaction.process_transaction(account);
 			
-			list_of_transactions.add(transaction);
+			all_in_sql.addTransaction(transaction);
 		
 		
 		
 					
 			//Process transaction.
-//			transaction.process_transaction(account);
+			
 
 
 		}
-		
-			//save accounts into database
-
-			
-			//save accounts into database
-			for(Transaction transaction2:list_of_transactions)
-			{
-				all_in_sql.addTransaction(transaction2);
-			}
+	
 	}
 }
 
