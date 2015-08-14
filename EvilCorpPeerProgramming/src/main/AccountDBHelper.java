@@ -30,9 +30,11 @@ public class AccountDBHelper
 		System.out.println(sql);
 		try
 		{
-			Statement stmt = getConnection().createStatement();
+			Connection conn = getConnection();
+			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(sql);
-		} catch (SQLException e)
+		} 
+		catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
