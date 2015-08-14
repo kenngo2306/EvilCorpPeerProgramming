@@ -121,10 +121,24 @@ public class AccountDBHelper
 		
 		//update balance
 		Account account = getAccountFromNumber(transaction.getAccount_number());
+		int tranType = transaction.getTransaction_type_id();
 		
-		//TODO update balance
-		
-			
+		if(tranType == 1 )
+		{
+			account.setStarting_balance(account.getStarting_balance() + transaction.getAmount());
+		}
+		else
+		{
+			if(account.getStarting_balance() < transaction.getAmount())
+			{
+				account.setStarting_balance(account.getStarting_balance() - transaction.getAmount() - 35);
+			}
+			else
+			{
+				account.setStarting_balance(account.getStarting_balance() - transaction.getAmount());
+			}
+		}
+		updateBalance(account);	
 	}
 	
 	
@@ -132,8 +146,7 @@ public class AccountDBHelper
 	{
 		Account account = new Account();
 		String sql = "SELECT * FROM " + ACCOUNT_TABLE + " WHERE account_number = '" + accountNumber + "'";
-//		String sql = "SELECT * FROM " + ACCOUNT_TABLE;
-		System.out.println(sql);
+
 		ResultSet result = selectSQL(sql);
 		try
 		{
@@ -163,7 +176,7 @@ public class AccountDBHelper
 				" " + BIRTH_DATE +
 				" ) VALUES  " +
 				"(?,?,?,?)";
-		System.out.println(insertAccount);
+		
 		try
 		{
 			java.util.Date utilDate = account.getBirth_date();

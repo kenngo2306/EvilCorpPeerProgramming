@@ -45,6 +45,7 @@ public class Evil_corp_app {
 		
 		System.out.println("Welcome to Evil Corp bank Accounts");
 		
+		//while not enter -1, continue the loop
 		while(true)
 		{
 
@@ -57,12 +58,9 @@ public class Evil_corp_app {
 			if(account_number.equalsIgnoreCase("-1")){break;}
 			
 			//Increment ID by one for each account added.
-			
-
 			account.setAccount_number(account_number);
 	
 			//Enter the account name.
-			
 			System.out.println("Enter the account name : ");
 			name = key.next();
 			key.nextLine();
@@ -73,6 +71,8 @@ public class Evil_corp_app {
 			System.out.println("Enter the starting balance : ");
 			starting_balance = key.next();
 			key.nextLine();
+			
+			//balance
 			balance_loop:
 				while(true)
 				{
@@ -159,6 +159,7 @@ public class Evil_corp_app {
 				Account account = all_in_sql.getAccountFromNumber(account_number);
 				if(account.getAccount_number() != null)
 				{
+					System.out.println("Account balance = " + account.getStarting_balance() );
 					hasAccount = true;
 				}
 				else
@@ -241,23 +242,12 @@ public class Evil_corp_app {
 			
 			
 			list_of_transactions.add(transaction);
-		
-		
-		
-					
-			//Process transaction.
-//			transaction.process_transaction(account);
-
-
 		}
 		
-			//save accounts into database
-
-			
-			//save accounts into database
-			for(Transaction transaction2:list_of_transactions)
-			{
-				all_in_sql.addTransaction(transaction2);
-			}
+		//save transactions into database
+		for(Transaction transaction2:list_of_transactions)
+		{
+			all_in_sql.addTransaction(transaction2);
+		}
 	}
 }
